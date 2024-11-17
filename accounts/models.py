@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
+
+
+
 #Create your models here
 class UserManage(BaseUserManager):
     def create_user(self, first_name, last_name,username,email,password=None):
@@ -26,7 +29,7 @@ class UserManage(BaseUserManager):
             username=username,
             password=password,
             first_name=first_name,
-            last_name=last_name,
+            last_name=last_name, 
 
         )
         user.is_admin=True
@@ -43,11 +46,11 @@ class UserManage(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    RESTAURANT =1
+    VENDOR =1
     CUSTOMER =2
 
     ROLE_CHOICE=(
-        (RESTAURANT,'Restaurant'),
+        (VENDOR,'vendor'),
         (CUSTOMER,'Customer'),
     )
     first_name=models.CharField(max_length=50)
@@ -82,6 +85,14 @@ class User(AbstractBaseUser):
     
     def has_module_perms(self, app_label):
         return True
+    
+    def get_role(self):
+        if self.role == 1:
+            user_role ='vendor'
+        elif self.role == 2:
+            user_role == 'Customer'
+        return user_role
+
 
 
 ########################################
@@ -108,7 +119,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
 
+        
 
 
 

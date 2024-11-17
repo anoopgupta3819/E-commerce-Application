@@ -1,0 +1,3 @@
+
+def detectUser(user):
+    
